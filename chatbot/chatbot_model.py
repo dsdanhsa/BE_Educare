@@ -1,20 +1,22 @@
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # Forces TensorFlow to use CPU only
-
+import logging
 import json
 import random
-import logging
 import pickle
-
 import nltk
-from nltk.stem import WordNetLemmatizer
-from nltk import download as nltk_download
-
 import numpy as np
 from keras.models import load_model
-
 from deep_translator import GoogleTranslator
 from langdetect import detect, LangDetectException
+from nltk.stem import WordNetLemmatizer
+from nltk import download as nltk_download
+import tensorflow as tf
+
+# Thiết lập để chỉ sử dụng CPU
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # Forces TensorFlow to use CPU only
+
+# Thiết lập logging để dễ theo dõi
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Tải xuống dữ liệu NLTK (chỉ cần thực hiện một lần)
 nltk_download('punkt')
@@ -29,6 +31,15 @@ MODEL_PATH = os.getenv('MODEL_PATH', os.path.join(BASE_DIR, r'D:\Project\DjChatB
 INTENTS_PATH = os.getenv('INTENTS_PATH', os.path.join(BASE_DIR, r'D:\Project\DjChatBox\ChatBotIntegration\BE\Chatbot_Project\File\Intents.json'))
 WORDS_PATH = os.getenv('WORDS_PATH', os.path.join(BASE_DIR, r'D:\Project\DjChatBox\ChatBotIntegration\BE\Chatbot_Project\File\Texts.pkl'))
 CLASSES_PATH = os.getenv('CLASSES_PATH', os.path.join(BASE_DIR, r'D:\Project\DjChatBox\ChatBotIntegration\BE\Chatbot_Project\File\Labels.pkl'))
+
+# Kiểm tra bộ nhớ GPU (nếu có) và giới hạn sử dụng
+if tf.config.list_physical_devices('GPU'):
+    physical_devices = tf.config.list_physical_devices('GPU')
+    tf.config.set_visible_devices(physical_devices[0], 'GPU')  # Nếu chỉ có 1 GPU, dùng GPU đầu tiên
+    tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    logging.info("GPU detected and memory growth enabled.")
+else:
+    logging.info("No GPU detected. Using CPU.")
 
 # Tải mô hình đã huấn luyện
 try:
@@ -105,18 +116,18 @@ def get_response(predicted_class, confidence, intents_json):
     # Điều chỉnh phản hồi dựa trên mức độ tin cậy
     if confidence > 0.8:
         # Độ tin cậy cao, trả lời trực tiếp
-        for intent in intents_json['intents'] :
+        for intent in intents_json['intents']:
             if intent['tag'] == predicted_class:
                 return random.choice(intent['responses'])
     elif confidence > 0.5:
         # Độ tin cậy trung bình, yêu cầu làm rõ
-        for intent in intents_json['intents'] :
+        for intent in intents_json['intents']:
             if intent['tag'] == predicted_class:
                 base_response = random.choice(intent['responses'])
                 return f"{base_response}\nCould you please clarify what you mean? I want to understand better."
     elif confidence > 0.3:
         # Độ tin cậy thấp, yêu cầu giải thích khác
-        for intent in intents_json['intents'] :
+        for intent in intents_json['intents']:
             if intent['tag'] == predicted_class:
                 base_response = random.choice(intent['responses'])
                 return f"{base_response}\nI am not sure I understand. Can you try explaining it differently?"
