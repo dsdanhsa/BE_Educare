@@ -27,7 +27,7 @@ To get started with Educare:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/dsdanhsa/be-chatbot-educare.git
+    git clone https://github.com/dsdanhsa/BE_Educare.git
     ```
     cd Chatbot_Project
 2. **Install requirements**:
@@ -49,7 +49,7 @@ To get started with Educare:
 4. **Update path**:
     ```
     go to file folder copy path of each file
-    bash into chatbot/app.py
+    bash into chatbot/chatbot_model.py
     ```
 5. **Set up the Django project**:
 - **Make database migrations**:
