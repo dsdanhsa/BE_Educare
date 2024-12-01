@@ -1,0 +1,20 @@
+[2024-12-01 09:25:30,385] INFO Watching for file changes with StatReloader
+[2024-12-01 09:25:40,338] WARNING Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+[2024-12-01 09:25:40,341] INFO Model loaded successfully from D:\Project\DjChatBox\ChatBotIntegration\BE\Chatbot_Project\File\Model.h5
+[2024-12-01 09:25:40,356] INFO Intents loaded successfully from D:\Project\DjChatBox\ChatBotIntegration\BE\Chatbot_Project\File\Intents.json
+[2024-12-01 09:25:40,363] INFO Words loaded successfully from D:\Project\DjChatBox\ChatBotIntegration\BE\Chatbot_Project\File\Texts.pkl
+[2024-12-01 09:25:40,374] INFO Classes loaded successfully from D:\Project\DjChatBox\ChatBotIntegration\BE\Chatbot_Project\File\Labels.pkl
+[2024-12-01 09:26:52,392] INFO User input: hi
+[2024-12-01 09:26:56,392] INFO Bot response: Hello there. Glad to see you're back. What's going on in your world right now?
+Could you please clarify what you mean? I want to understand better.
+[2024-12-01 09:26:56,397] INFO Bot response: Hello there. Glad to see you're back. What's going on in your world right now?
+Could you please clarify what you mean? I want to understand better.
+[2024-12-01 09:27:25,558] INFO User input: i very bad i can you help
+[2024-12-01 09:27:25,647] INFO Bot response: I'll see you soon.
+I am not sure I understand. Can you try explaining it differently?
+[2024-12-01 09:27:25,647] INFO Bot response: I'll see you soon.
+I am not sure I understand. Can you try explaining it differently?
+[2024-12-01 09:29:01,199] INFO User input: i want die i fell very bad
+[2024-12-01 09:29:01,291] INFO Bot response: Sorry, I don't understand you well enough. Could you rephrase?
+[2024-12-01 09:29:01,292] INFO Bot response: Sorry, I don't understand you well enough. Could you rephrase?
+[2024-12-01 09:31:09,154] WARNING Not Found: /EduCare/profile
