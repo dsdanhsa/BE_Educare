@@ -15,7 +15,17 @@ import tensorflow as tf
 # Thiết lập để chỉ sử dụng CPU
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # Forces TensorFlow to use CPU only
 
-# Thiết lập logging để dễ theo dõi
+# Kiểm tra và cấu hình TensorFlow sử dụng bộ nhớ GPU (nếu có)
+if tf.config.list_physical_devices('GPU'):
+    physical_devices = tf.config.list_physical_devices('GPU')
+    tf.config.set_visible_devices(physical_devices[0], 'GPU')  # Nếu chỉ có 1 GPU, dùng GPU đầu tiên
+    tf.config.experimental.set_memory_growth(physical_devices[0], True)  # Enable memory growth
+    logging.info("GPU detected and memory growth enabled.")
+else:
+    tf.config.set_visible_devices([], 'GPU')  # Không sử dụng GPU, chỉ sử dụng CPU
+    logging.info("No GPU detected. Using CPU.")
+
+# Cấu hình logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Tải xuống dữ liệu NLTK (chỉ cần thực hiện một lần)
@@ -31,15 +41,6 @@ MODEL_PATH = os.getenv('MODEL_PATH', os.path.join(BASE_DIR, r'D:\Project\DjChatB
 INTENTS_PATH = os.getenv('INTENTS_PATH', os.path.join(BASE_DIR, r'D:\Project\DjChatBox\ChatBotIntegration\BE\Chatbot_Project\File\Intents.json'))
 WORDS_PATH = os.getenv('WORDS_PATH', os.path.join(BASE_DIR, r'D:\Project\DjChatBox\ChatBotIntegration\BE\Chatbot_Project\File\Texts.pkl'))
 CLASSES_PATH = os.getenv('CLASSES_PATH', os.path.join(BASE_DIR, r'D:\Project\DjChatBox\ChatBotIntegration\BE\Chatbot_Project\File\Labels.pkl'))
-
-# Kiểm tra bộ nhớ GPU (nếu có) và giới hạn sử dụng
-if tf.config.list_physical_devices('GPU'):
-    physical_devices = tf.config.list_physical_devices('GPU')
-    tf.config.set_visible_devices(physical_devices[0], 'GPU')  # Nếu chỉ có 1 GPU, dùng GPU đầu tiên
-    tf.config.experimental.set_memory_growth(physical_devices[0], True)
-    logging.info("GPU detected and memory growth enabled.")
-else:
-    logging.info("No GPU detected. Using CPU.")
 
 # Tải mô hình đã huấn luyện
 try:
