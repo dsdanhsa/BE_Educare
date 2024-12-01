@@ -1,4 +1,6 @@
 import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # Forces TensorFlow to use CPU only
+
 import json
 import random
 import logging
@@ -103,18 +105,18 @@ def get_response(predicted_class, confidence, intents_json):
     # Điều chỉnh phản hồi dựa trên mức độ tin cậy
     if confidence > 0.8:
         # Độ tin cậy cao, trả lời trực tiếp
-        for intent in intents_json['intents']:
+        for intent in intents_json['intents'] :
             if intent['tag'] == predicted_class:
                 return random.choice(intent['responses'])
     elif confidence > 0.5:
         # Độ tin cậy trung bình, yêu cầu làm rõ
-        for intent in intents_json['intents']:
+        for intent in intents_json['intents'] :
             if intent['tag'] == predicted_class:
                 base_response = random.choice(intent['responses'])
                 return f"{base_response}\nCould you please clarify what you mean? I want to understand better."
     elif confidence > 0.3:
         # Độ tin cậy thấp, yêu cầu giải thích khác
-        for intent in intents_json['intents']:
+        for intent in intents_json['intents'] :
             if intent['tag'] == predicted_class:
                 base_response = random.choice(intent['responses'])
                 return f"{base_response}\nI am not sure I understand. Can you try explaining it differently?"
